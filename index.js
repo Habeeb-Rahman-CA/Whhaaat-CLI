@@ -61,6 +61,203 @@ const commandsData = {
         safeness: 'Safe for personal files, dangerous for system directories.',
         alternatives: ['Use specific permissions like 644 or 755']
     },
+    'cd': {
+        name: 'cd (Change Directory)',
+        description: 'Changes the current working directory.',
+        risk: 'Zero',
+        dangerousFlags: {},
+        safeness: 'Completely safe. It just moves you around the filesystem.',
+        alternatives: []
+    },
+    'pwd': {
+        name: 'pwd (Print Working Directory)',
+        description: 'Displays the full path of the current directory.',
+        risk: 'Zero',
+        dangerousFlags: {},
+        safeness: 'Safe. Use it when you are lost in the folders!',
+        alternatives: []
+    },
+    'mkdir': {
+        name: 'mkdir (Make Directory)',
+        description: 'Creates a new folder.',
+        risk: 'Low',
+        dangerousFlags: {
+            '-p': 'Creates parent directories as needed. Safe.'
+        },
+        safeness: 'Safe. It only creates folders, never deletes them.',
+        alternatives: []
+    },
+    'touch': {
+        name: 'touch',
+        description: 'Creates an empty file or updates the timestamp of an existing file.',
+        risk: 'Low',
+        dangerousFlags: {},
+        safeness: 'Safe. It creates files but doesn\'t overwrite content.',
+        alternatives: []
+    },
+    'cat': {
+        name: 'cat (Concatenate)',
+        description: 'Displays the content of a file in the terminal.',
+        risk: 'Low',
+        dangerousFlags: {},
+        safeness: 'Safe for viewing text files. Be careful with binary files as they can mess up your terminal display!',
+        alternatives: ['less (better for large files)', 'bat (modern version)']
+    },
+    'ssh': {
+        name: 'ssh (Secure Shell)',
+        description: 'Provides a secure encrypted connection to a remote computer.',
+        risk: 'Medium',
+        dangerousFlags: {
+            '-L': 'Port forwarding. Can be used to bypass firewalls.',
+            '-i': 'Specifies a private key file for authentication.'
+        },
+        safeness: 'Safe for connecting to trusted servers. Never share your private keys!',
+        alternatives: []
+    },
+    'scp': {
+        name: 'scp (Secure Copy)',
+        description: 'Copies files between computers over a secure connection.',
+        risk: 'Low/Medium',
+        dangerousFlags: {
+            '-r': 'Recursively copies entire directories.'
+        },
+        safeness: 'Safe for file transfer. Be careful not to overwrite files on the destination.',
+        alternatives: ['rsync']
+    },
+    'top': {
+        name: 'top / htop',
+        description: 'Displays real-time system resource usage (CPU, RAM, Processes).',
+        risk: 'Zero',
+        dangerousFlags: {},
+        safeness: 'Completely safe. Press "q" to exit.',
+        alternatives: ['htop (prettier)', 'btop (coolest looking)']
+    },
+    'df': {
+        name: 'df (Disk Free)',
+        description: 'Displays the amount of available disk space.',
+        risk: 'Zero',
+        dangerousFlags: {
+            '-h': 'Human-readable format (MB, GB). Highly recommended.'
+        },
+        safeness: 'Completely safe. It only reads disk stats.',
+        alternatives: ['duf (prettier)']
+    },
+    'echo': {
+        name: 'echo',
+        description: 'Prints text or variables to the terminal.',
+        risk: 'Low',
+        dangerousFlags: {
+            '>': 'Redirects output to a file, OVERWRITING its content!',
+            '>>': 'Appends output to the end of a file.'
+        },
+        safeness: 'Safe for printing, but be careful with redirection (>) as it can wipe files.',
+        alternatives: []
+    },
+    'man': {
+        name: 'man (Manual)',
+        description: 'Displays the manual pages for other commands.',
+        risk: 'Zero',
+        dangerousFlags: {},
+        safeness: 'Completely safe. The ultimate source of truth for commands!',
+        alternatives: ['tldr (simplified man pages)']
+    },
+    'alias': {
+        name: 'alias',
+        description: 'Creates a shortcut/nickname for a command.',
+        risk: 'Medium',
+        dangerousFlags: {},
+        safeness: 'Safe, but be careful not to overwrite existing commands (e.g., aliasing "ls" to "rm").',
+        alternatives: []
+    },
+    'dir': {
+        name: 'dir (Windows/DOS Listing)',
+        description: 'Lists files and directories in the current folder.',
+        risk: 'Zero',
+        dangerousFlags: {
+            '/S': 'Lists files in subdirectories too.',
+            '/AH': 'Shows hidden files.'
+        },
+        safeness: 'Completely safe to use.',
+        alternatives: ['ls']
+    },
+    'cls': {
+        name: 'cls / clear',
+        description: 'Clears the terminal screen.',
+        risk: 'Zero',
+        dangerousFlags: {},
+        safeness: 'Safe. Use it whenever your terminal gets too messy!',
+        alternatives: []
+    },
+    'pip': {
+        name: 'PIP (Python Package Installer)',
+        description: 'The standard package manager for Python.',
+        risk: 'Low/Medium',
+        dangerousFlags: {
+            'install': 'Installs packages. Beware of malicious packages!',
+            'uninstall': 'Removes a package.',
+            'freeze': 'Outputs installed packages. Safe.'
+        },
+        safeness: 'Safe, but always use virtual environments (venv) to keep your system clean.',
+        alternatives: ['conda', 'poetry']
+    },
+    'npx': {
+        name: 'NPX (Node Package Execute)',
+        description: 'Executes binaries from npm packages without installing them globally.',
+        risk: 'Medium',
+        dangerousFlags: {
+            '--yes': 'Skips the prompt to install a package. Can be dangerous if the package name is mistyped!'
+        },
+        safeness: 'Convenient for one-off tasks, but ensure you trust the package before running.',
+        alternatives: []
+    },
+    'kubectl': {
+        name: 'Kubectl (Kubernetes CLI)',
+        description: 'Command line tool for controlling Kubernetes clusters.',
+        risk: 'High/Critical',
+        dangerousFlags: {
+            'delete --all': 'Deletes EVERYTHING in the current namespace. EXTREMELY DESTRUCTIVE!',
+            'apply -f': 'Changes the state of the cluster. Can break production if the config is wrong.',
+            'exec -it': 'Opens an interactive shell in a container. Use with care in production.'
+        },
+        safeness: 'Powerful cluster management tool. Always double-check your context (cluster/namespace).',
+        alternatives: ['k9s (Visual terminal UI)']
+    },
+    'git': {
+        name: 'Git',
+        description: 'A distributed version control system.',
+        risk: 'Low/High',
+        dangerousFlags: {
+            'reset --hard': 'Resets your code to a previous state and DELETES all uncommitted changes!',
+            'push --force': 'Overwrites the remote repository with your local version. Can delete others\' work!',
+            'clean -fd': 'Recursively deletes files that are not tracked by Git.'
+        },
+        safeness: 'Safe for daily use, but "reset --hard" and "push --force" are destructive.',
+        alternatives: ['git stash (to save changes temporarily)', 'git push --force-with-lease']
+    },
+    'npm': {
+        name: 'NPM (Node Package Manager)',
+        description: 'Package manager for the Node.js JavaScript runtime environment.',
+        risk: 'Low/Medium',
+        dangerousFlags: {
+            'install': 'Downloads packages. Watch out for typo-squatting (malicious packages with similar names)!',
+            'publish --force': 'Forcibly overwriting a package version (rarely used/allowed).',
+            'ci': 'Clean install. Deletes node_modules and installs exactly from lockfile.'
+        },
+        safeness: 'Safe, but always check what packages you are adding to your project.',
+        alternatives: ['pnpm', 'yarn']
+    },
+    'docker': {
+        name: 'Docker',
+        description: 'A platform to deliver software in packages called containers.',
+        risk: 'Medium',
+        dangerousFlags: {
+            'rm -f': 'Forcibly removes a running container.',
+            'system prune -a': 'Deletes ALL unused images, containers, networks, and volumes. Permanent!',
+            'volume rm': 'Deletes a volume and all data inside it.'
+        },
+        safeness: 'Safe for managing containers, but "prune" commands are very destructive.',
+        alternatives: []
+    },
     'cp': {
         name: 'cp (Copy)',
         description: 'Copies files or directories.',
