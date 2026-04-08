@@ -1469,6 +1469,150 @@
     "safeness": "Use 'prune' carefully to save disk space, but remember it deletes anything not currently in use.",
     "alternatives": []
   },
+  "rg": {
+    "name": "ripgrep (rg)",
+    "description": "A line-oriented search tool that recursively searches the current directory for a regex pattern.",
+    "risk": "Zero",
+    "dangerousFlags": {
+      "-u": "Unrestricted: searches ignored and hidden files too.",
+      "-w": "Search for whole words only."
+    },
+    "safeness": "Completely safe. Much faster than grep.",
+    "alternatives": ["grep", "ack", "ag"]
+  },
+  "fd": {
+    "name": "fd-find",
+    "description": "A simple, fast and user-friendly alternative to 'find'.",
+    "risk": "Zero",
+    "dangerousFlags": {
+      "-e": "Execute a command for every search result. Use carefully!",
+      "-H": "Include hidden files and directories in the search."
+    },
+    "safeness": "Completely safe. More intuitive than the traditional 'find' command.",
+    "alternatives": ["find"]
+  },
+  "ag": {
+    "name": "The Silver Searcher (ag)",
+    "description": "A code-searching tool similar to ack, but faster.",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Safe and very fast for codebases.",
+    "alternatives": ["rg", "ack"]
+  },
+  "reboot": {
+    "name": "reboot",
+    "description": "Restarts the system.",
+    "risk": "High",
+    "dangerousFlags": {
+      "-f": "Forces an immediate reboot without a clean shutdown. Risk of data loss!"
+    },
+    "safeness": "Use only when you want to restart. Ensure all work is saved.",
+    "alternatives": ["shutdown -r now"]
+  },
+  "shutdown": {
+    "name": "shutdown",
+    "description": "Powers off or restarts the computer.",
+    "risk": "High",
+    "dangerousFlags": {
+      "-h now": "Shuts down immediately.",
+      "-r": "Restarts instead of powering off.",
+      "-c": "Cancels a pending shutdown."
+    },
+    "safeness": "Use with care, especially on remote servers!",
+    "alternatives": []
+  },
+  "journalctl": {
+    "name": "journalctl",
+    "description": "Used for querying and displaying logs from journald, the systemd logging service.",
+    "risk": "Zero",
+    "dangerousFlags": {
+      "-f": "Follow mode: shows new logs in real-time.",
+      "-u": "Filters logs for a specific service.",
+      "--vacuum-time": "Deletes old logs to save space. Careful!"
+    },
+    "safeness": "Safe and essential for troubleshooting system issues.",
+    "alternatives": ["tail -f /var/log/syslog"]
+  },
+  "dmesg": {
+    "name": "dmesg",
+    "description": "Prints the message buffer of the kernel. Used to see hardware and driver messages.",
+    "risk": "Zero",
+    "dangerousFlags": {
+      "-w": "Wait for new messages (follow mode)."
+    },
+    "safeness": "Safe. Great for diagnosing USB, disk, or driver problems.",
+    "alternatives": []
+  },
+  "tmux": {
+    "name": "tmux",
+    "description": "A terminal multiplexer: it lets you switch easily between several programs in one terminal, detach them and reattach them.",
+    "risk": "Low",
+    "dangerousFlags": {
+      "kill-session": "Deletes a session and stops all programs running inside it."
+    },
+    "safeness": "Safest way to run long tasks on a remote server.",
+    "alternatives": ["screen"]
+  },
+  "screen": {
+    "name": "GNU Screen",
+    "description": "A window manager that multiplexes a physical terminal between several processes.",
+    "risk": "Low",
+    "dangerousFlags": {},
+    "safeness": "Legacy tool for persistent sessions. Most users prefer tmux now.",
+    "alternatives": ["tmux"]
+  },
+  "nohup": {
+    "name": "nohup (No Hang Up)",
+    "description": "Runs a command such that it will keep running even after you log out.",
+    "risk": "Low",
+    "dangerousFlags": {},
+    "safeness": "Safe. Usually used with \"&\" to put a process in the background.",
+    "alternatives": ["tmux", "screen", "disown"]
+  },
+  "iotop": {
+    "name": "iotop",
+    "description": "Displays real-time disk I/O usage by processes.",
+    "risk": "Zero",
+    "dangerousFlags": {
+      "-o": "Only show processes actually doing I/O."
+    },
+    "safeness": "Safe. Helps find what is slowing down your disk.",
+    "alternatives": []
+  },
+  "lscpu": {
+    "name": "lscpu",
+    "description": "Displays information about the CPU architecture.",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Safe info utility.",
+    "alternatives": []
+  },
+  "lsusb": {
+    "name": "lsusb",
+    "description": "Lists USB devices attached to the system.",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Safe info utility.",
+    "alternatives": []
+  },
+  "lspci": {
+    "name": "lspci",
+    "description": "Lists all PCI devices (graphics cards, network cards, etc.).",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Safe info utility.",
+    "alternatives": []
+  },
+  "nice": {
+    "name": "nice",
+    "description": "Runs a program with a modified scheduling priority.",
+    "risk": "Low",
+    "dangerousFlags": {
+      "-n": "Sets the 'niceness' value. Positive is lower priority, negative is higher priority (requires sudo)."
+    },
+    "safeness": "Safe. Use it to keep heavy background tasks from lagging your computer.",
+    "alternatives": ["renice"]
+  },
   ":(){ :|:& };:": {
     "name": "Fork Bomb",
     "description": "A shell function that calls itself multiple times until the system crashes.",
