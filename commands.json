@@ -93,6 +93,93 @@
     "safeness": "Safe for viewing text files. Be careful with binary files as they can mess up your terminal display!",
     "alternatives": ["less (better for large files)", "bat (modern version)"]
   },
+  "ip": {
+    "name": "ip",
+    "description": "The modern tool for managing network interfaces, routing, and tunnels.",
+    "risk": "Medium/High",
+    "dangerousFlags": {
+      "addr add": "Manually adds an IP address to an interface.",
+      "link set down": "Turns off a network interface. You will lose connection if it's your primary!",
+      "route add default": "Changes your default gateway. Can lead to total internet loss if wrong."
+    },
+    "safeness": "Powerful and replaces the old 'ifconfig'. Use with care when changing settings.",
+    "alternatives": ["ifconfig (legacy)"]
+  },
+  "nmap": {
+    "name": "nmap (Network Mapper)",
+    "description": "A tool used for network discovery and security auditing.",
+    "risk": "Medium/High",
+    "dangerousFlags": {
+      "-sS": "Stealthy SYN scan. Can be detected by modern firewalls.",
+      "-T4": "Faster execution. Might overwhelm older network equipment.",
+      "-A": "Enable OS detection, version detection, script scanning, and traceroute."
+    },
+    "safeness": "Extremely powerful for security pros. Scanning networks you don't own can be seen as illegal/hostile!",
+    "alternatives": ["rustscan (much faster)"]
+  },
+  "tcpdump": {
+    "name": "tcpdump",
+    "description": "Captures and displays the data packets being transmitted or received over a network.",
+    "risk": "Medium",
+    "dangerousFlags": {
+      "-w": "Writes the raw packets to a file (pcap format). Can fill up your disk quickly!",
+      "-i": "Specifies which network interface to listen on."
+    },
+    "safeness": "Safe for monitoring, but requires 'sudo' and can capture sensitive data (passwords) sent over unencrypted connections.",
+    "alternatives": ["Wireshark (Visual interface)"]
+  },
+  "iptables": {
+    "name": "iptables",
+    "description": "A command-line utility for configuring the Linux kernel firewall rules.",
+    "risk": "High/Critical",
+    "dangerousFlags": {
+      "-F": "Flushes (deletes) ALL firewall rules. DANGEROUS!",
+      "-P INPUT DROP": "Drops all incoming traffic. You will be locked out of your server immediately!",
+      "-A": "Appends a new rule."
+    },
+    "safeness": "EXTREMELY POWERFUL. One mistake can lock you out of a remote machine forever.",
+    "alternatives": ["ufw (easier)", "firewalld"]
+  },
+  "ufw": {
+    "name": "ufw (Uncomplicated Firewall)",
+    "description": "A user-friendly front-end for managing iptables firewalls on Ubuntu.",
+    "risk": "Medium",
+    "dangerousFlags": {
+      "enable": "Turns on the firewall. Ensure you allow SSH (port 22) first!",
+      "reset": "Disables and removes all user-defined rules."
+    },
+    "safeness": "Much safer than iptables for beginners. Always check 'ufw status' before enabling.",
+    "alternatives": ["iptables"]
+  },
+  "mtr": {
+    "name": "mtr (My Traceroute)",
+    "description": "Combines the functionality of 'traceroute' and 'ping' into a single network diagnostic tool.",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Safe. The gold standard for diagnosing network lag/jitter.",
+    "alternatives": ["traceroute", "ping"]
+  },
+  "nmcli": {
+    "name": "nmcli (NetworkManager CLI)",
+    "description": "Command-line tool for controlling NetworkManager and reporting network status.",
+    "risk": "Low/Medium",
+    "dangerousFlags": {
+      "device disconnect": "Drops your connection to a specific interface.",
+      "connection down": "Turns off a saved connection."
+    },
+    "safeness": "Safe for managing WiFi and Ethernet connections on modern Linux desktops.",
+    "alternatives": ["nmtui (Terminal GUI)"]
+  },
+  "ifconfig": {
+    "name": "ifconfig",
+    "description": "Legacy tool used to configure, control, and query TCP/IP network interface parameters.",
+    "risk": "Medium",
+    "dangerousFlags": {
+      "down": "Turns off a network interface."
+    },
+    "safeness": "Safe for viewing info, but mostly deprecated in favor of 'ip'.",
+    "alternatives": ["ip addr", "ip link"]
+  },
   "git stash": {
     "name": "Git Stash",
     "description": "Temporarily shelves (stashes) changes you've made to your working copy so you can work on something else.",
