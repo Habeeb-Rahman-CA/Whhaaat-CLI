@@ -84,8 +84,15 @@ const showUnknownCommandBox = (baseCommand) => {
 const explainCommand = async (fullCommand) => {
     const parts = fullCommand.split(' ');
     const baseCommand = parts[0];
+    const subCommand = parts.length > 1 ? `${parts[0]} ${parts[1]}` : null;
 
-    const explanation = commandsData[baseCommand];
+    // Try two-word lookup (e.g. "git stash")
+    let explanation = subCommand ? commandsData[subCommand] : null;
+
+    // Fallback to one-word lookup (e.g. "git")
+    if (!explanation) {
+        explanation = commandsData[baseCommand];
+    }
 
     if (!explanation) {
         // Try searching for the fork bomb specifically as it's not a standard command

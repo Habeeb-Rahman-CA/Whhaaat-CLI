@@ -93,6 +93,94 @@
     "safeness": "Safe for viewing text files. Be careful with binary files as they can mess up your terminal display!",
     "alternatives": ["less (better for large files)", "bat (modern version)"]
   },
+  "git stash": {
+    "name": "Git Stash",
+    "description": "Temporarily shelves (stashes) changes you've made to your working copy so you can work on something else.",
+    "risk": "Low",
+    "dangerousFlags": {
+      "drop": "Permanently deletes a stashed change!",
+      "pop": "Applies the stash and removes it from the list.",
+      "clear": "Deletes ALL stashed entries. Permanent!"
+    },
+    "safeness": "Generally safe. It's like a temporary 'save' button for your messy code.",
+    "alternatives": ["git commit --amend"]
+  },
+  "git rebase": {
+    "name": "Git Rebase",
+    "description": "Moves or combines a sequence of commits to a new base commit.",
+    "risk": "High",
+    "dangerousFlags": {
+      "-i": "Interactive mode. Powerful but can be confusing for beginners.",
+      "--abort": "Stops the rebase and returns to the previous state. Useful if things go wrong!"
+    },
+    "safeness": "Advanced tool. Can rewrite history. Avoid using it on shared/public branches!",
+    "alternatives": ["git merge"]
+  },
+  "git merge": {
+    "name": "Git Merge",
+    "description": "Combines multiple sequences of commits into one unified history.",
+    "risk": "Medium",
+    "dangerousFlags": {
+      "--abort": "Stops the merge if there are conflicts.",
+      "--no-ff": "Creates a merge commit even if a fast-forward is possible."
+    },
+    "safeness": "Safe, but be prepared to resolve 'merge conflicts' if others worked on the same lines.",
+    "alternatives": ["git rebase"]
+  },
+  "git checkout": {
+    "name": "Git Checkout",
+    "description": "Switches between branches or restores working tree files.",
+    "risk": "Low/Medium",
+    "dangerousFlags": {
+      "-b": "Creates a new branch and switches to it.",
+      ".": "Discards ALL changes in the current directory. Permanent!",
+      "HEAD": "Can put you in a 'detached HEAD' state."
+    },
+    "safeness": "Fundamental tool. Be careful with '.' as it wipes uncommitted work.",
+    "alternatives": ["git switch", "git restore"]
+  },
+  "git commit": {
+    "name": "Git Commit",
+    "description": "Saves your staged changes to the local repository history.",
+    "risk": "Low",
+    "dangerousFlags": {
+      "--amend": "Modifies the last commit. Useful for fixing typos, but don't do it after pushing!",
+      "-m": "Saves the commit with a message."
+    },
+    "safeness": "Safe. It's your history log.",
+    "alternatives": []
+  },
+  "git clone": {
+    "name": "Git Clone",
+    "description": "Creates a local copy of a remote repository.",
+    "risk": "Low",
+    "dangerousFlags": {
+      "--depth 1": "Creates a shallow clone (no history). Useful for large repos."
+    },
+    "safeness": "Safe and standard.",
+    "alternatives": []
+  },
+  "git config": {
+    "name": "Git Config",
+    "description": "Stores and retrieves configuration variables that control all aspects of how Git looks and operates.",
+    "risk": "Low",
+    "dangerousFlags": {
+      "--global": "Changes settings for all your repositories."
+    },
+    "safeness": "Safe. Used for setting your name, email, and aliases.",
+    "alternatives": []
+  },
+  "git log": {
+    "name": "Git Log",
+    "description": "Shows the commit history.",
+    "risk": "Zero",
+    "dangerousFlags": {
+      "--oneline": "Compact view.",
+      "-p": "Shows the code changes (diff) for each commit."
+    },
+    "safeness": "Completely safe read-only tool.",
+    "alternatives": ["gitk", "tig"]
+  },
   "mount": {
     "name": "mount",
     "description": "Attaches a filesystem found on a device to the big filesystem tree.",
@@ -1014,14 +1102,14 @@
   },
   "git": {
     "name": "Git",
-    "description": "A distributed version control system.",
+    "description": "A distributed version control system. Use subcommands like 'git stash' or 'git rebase' for more specific help.",
     "risk": "Low/High",
     "dangerousFlags": {
       "reset --hard": "Resets your code to a previous state and DELETES all uncommitted changes!",
       "push --force": "Overwrites the remote repository with your local version. Can delete others' work!",
       "clean -fd": "Recursively deletes files that are not tracked by Git."
     },
-    "safeness": "Safe for daily use, but \"reset --hard\" and \"push --force\" are destructive.",
+    "safeness": "Safe for daily use, but 'reset --hard' and 'push --force' are destructive.",
     "alternatives": ["git stash (to save changes temporarily)", "git push --force-with-lease"]
   },
   "npm": {
