@@ -9,6 +9,8 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+import axios from 'axios';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -30,7 +32,56 @@ const showHeader = () => {
     ].join('\n')));
 };
 
-const explainCommand = (fullCommand) => {
+const askAI = async (fullCommand) => {
+    const aiSpinner = ora(chalk.cyan('Consulting AI Smart Mode...')).start();
+    try {
+        const response = await axios.post('http://localhost:11434/api/generate', {
+            model: 'llama3', // Default to llama3, user can change
+            prompt: `Explain the terminal command '${fullCommand}' in simple English for a beginner. 
+            Output ONLY a JSON object without any markdown or extra text. 
+            The JSON MUST have these keys: 
+            "name" (string), 
+            "description" (string), 
+            "risk" (one of: Zero, Low, Medium, High, Critical), 
+            "dangerousFlags" (object where keys are flags and values are descriptions), 
+            "safeness" (short safety tip), 
+            "alternatives" (array of strings).`,
+            stream: false
+        }, { timeout: 10000 });
+
+        aiSpinner.stop();
+        
+        try {
+            const result = JSON.parse(response.data.response);
+            displayExplanation(result, fullCommand, true);
+        } catch (parseError) {
+            throw new Error('AI returned invalid format');
+        }
+    } catch (error) {
+        aiSpinner.stop();
+        showUnknownCommandBox(fullCommand.split(' ')[0]);
+    }
+};
+
+const showUnknownCommandBox = (baseCommand) => {
+    console.log(boxen(
+        chalk.yellow(`\n[!] Whhaaat? I don't know the command: `) + chalk.white.bold(baseCommand) + `\n\n` +
+        chalk.dim(`I'm still learning and AI Smart Mode is either off or unavailable.\n`) +
+        chalk.cyan(`  • Checking if you spelled it correctly\n`) +
+        chalk.cyan(`  • Using "man ${baseCommand}" for technical details\n`) +
+        chalk.cyan(`  • Contributing this command to my database!`),
+        {
+            padding: 1,
+            margin: 1,
+            borderStyle: 'double',
+            borderColor: 'yellow',
+            title: 'Unknown Command',
+            titleAlignment: 'center'
+        }
+    ));
+};
+
+const explainCommand = async (fullCommand) => {
     const parts = fullCommand.split(' ');
     const baseCommand = parts[0];
 
@@ -42,31 +93,22 @@ const explainCommand = (fullCommand) => {
             return displayExplanation(commandsData[":(){ :|:& };:"]);
         }
 
-        console.log(boxen(
-            chalk.yellow(`\n[!] Whhaaat? I don't know the command: `) + chalk.white.bold(baseCommand) + `\n\n` +
-            chalk.dim(`I'm still learning! You can try:\n`) +
-            chalk.cyan(`  • Checking if you spelled it correctly\n`) +
-            chalk.cyan(`  • Using "man ${baseCommand}" for technical details\n`) +
-            chalk.cyan(`  • Contributing this command to my database!`),
-            {
-                padding: 1,
-                margin: 1,
-                borderStyle: 'double',
-                borderColor: 'yellow',
-                title: 'Unknown Command',
-                titleAlignment: 'center'
-            }
-        ));
+        // Trigger AI Smart Mode
+        await askAI(fullCommand);
         return;
     }
 
     displayExplanation(explanation, fullCommand);
 };
 
-const displayExplanation = (data, fullCommand = '') => {
+const displayExplanation = (data, fullCommand = '', isAI = false) => {
     let output = '';
 
-    output += chalk.bold.cyan(`\nCommand: `) + chalk.white(data.name) + '\n';
+    if (isAI) {
+        output += chalk.italic.magenta(`🤖 AI Generated Explanation\n\n`);
+    }
+
+    output += chalk.bold.cyan(`Command: `) + chalk.white(data.name) + '\n';
     output += chalk.bold.cyan(`What it does: `) + chalk.white(data.description) + '\n';
 
     const riskColor = data.risk === 'Critical' ? chalk.red.bold : (data.risk === 'High' ? chalk.red : chalk.yellow);
@@ -113,16 +155,13 @@ program
     .description('A CLI to explain scary terminal commands')
     .version('1.0.0')
     .argument('[command...]', 'The command to explain')
-    .action((commandArgs) => {
+    .action(async (commandArgs) => {
         if (commandArgs.length === 0) {
             showHeader();
             program.outputHelp();
             return;
         }
 
-        // If the first arg is 'explain', we can keep it or skip it
-        // If the user typed 'whhaaat explain rm', commandArgs is ['explain', 'rm']
-        // If the user typed 'whhaaat rm', commandArgs is ['rm']
         let cmdToExplain = commandArgs;
         if (commandArgs[0] === 'explain') {
             cmdToExplain = commandArgs.slice(1);
@@ -138,10 +177,9 @@ program
         showHeader();
         const spinner = ora('Analyzing your command...').start();
         
-        setTimeout(() => {
-            spinner.stop();
-            explainCommand(fullCommand);
-        }, 800);
+        await new Promise(resolve => setTimeout(resolve, 800));
+        spinner.stop();
+        await explainCommand(fullCommand);
     });
 
 program.parse(process.argv);

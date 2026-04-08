@@ -178,6 +178,540 @@
     "safeness": "Safe. Use it whenever your terminal gets too messy!",
     "alternatives": []
   },
+  "yarn": {
+    "name": "Yarn",
+    "description": "A fast, reliable, and secure dependency management tool for Node.js.",
+    "risk": "Low/Medium",
+    "dangerousFlags": {
+      "add": "Adds a package. Beware of typos!",
+      "remove": "Removes a package.",
+      "cache clean": "Clears the yarn cache."
+    },
+    "safeness": "Safe and robust package manager.",
+    "alternatives": ["npm", "pnpm"]
+  },
+  "pnpm": {
+    "name": "PNPM",
+    "description": "Fast, disk space efficient package manager.",
+    "risk": "Low/Medium",
+    "dangerousFlags": {
+      "install": "Installs dependencies. Very fast.",
+      "recursive": "Runs a command in every package of a monorepo."
+    },
+    "safeness": "Extremely efficient and safe. Uses content-addressable storage.",
+    "alternatives": ["npm", "yarn"]
+  },
+  "pm2": {
+    "name": "PM2",
+    "description": "Production Process Manager for Node.js applications.",
+    "risk": "Medium",
+    "dangerousFlags": {
+      "delete all": "Stops and deletes all managed processes!",
+      "flush": "Clears all logs.",
+      "kill": "Kills the PM2 daemon."
+    },
+    "safeness": "Powerful production tool. Be careful when deleting processes in production.",
+    "alternatives": ["forever", "systemd"]
+  },
+  "python3": {
+    "name": "Python 3",
+    "description": "The command to run the Python 3 interpreter.",
+    "risk": "Low",
+    "dangerousFlags": {
+      "-c": "Executes a string of Python code directly from the terminal.",
+      "-m": "Runs a library module as a script (e.g., venv, pip)."
+    },
+    "safeness": "Safe for development. Be careful with scripts that interact with the filesystem.",
+    "alternatives": ["pypy", "python"]
+  },
+  "venv": {
+    "name": "Python venv",
+    "description": "Creates isolated virtual environments for Python projects.",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Highly recommended for keeping project dependencies separate.",
+    "alternatives": ["conda", "virtualenv"]
+  },
+  "conda": {
+    "name": "Conda",
+    "description": "A package and environment management system (often used for Data Science).",
+    "risk": "Low/Medium",
+    "dangerousFlags": {
+      "remove --all": "Deletes an entire environment and all its packages.",
+      "clean -a": "Removes index cache, lock files, unused packages, and source cache."
+    },
+    "safeness": "Great for complex dependency chains.",
+    "alternatives": ["pip", "mamba"]
+  },
+  "poetry": {
+    "name": "Poetry",
+    "description": "Python packaging and dependency management made easy.",
+    "risk": "Low",
+    "dangerousFlags": {
+      "publish": "Publishes your package to PyPI. Check your code first!",
+      "remove": "Removes a dependency."
+    },
+    "safeness": "Modern and safe way to manage Python projects.",
+    "alternatives": ["pip", "pipenv"]
+  },
+  "pytest": {
+    "name": "Pytest",
+    "description": "A framework that makes it easy to write small, readable tests.",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Completely safe. Use it to ensure your code works!",
+    "alternatives": ["unittest", "nose2"]
+  },
+  "gcc": {
+    "name": "GCC (GNU Compiler Collection)",
+    "description": "The standard compiler for C code.",
+    "risk": "Low",
+    "dangerousFlags": {
+      "-o": "Specifies the output filename. Can overwrite existing files!",
+      "-Wall": "Enables all compiler warnings. Recommended."
+    },
+    "safeness": "Safe, but watch where you save the compiled binary.",
+    "alternatives": ["clang"]
+  },
+  "g++": {
+    "name": "G++",
+    "description": "The standard compiler for C++ code.",
+    "risk": "Low",
+    "dangerousFlags": {
+      "-o": "Specifies the output filename.",
+      "-std=c++20": "Uses a specific C++ standard version."
+    },
+    "safeness": "Safe for developers.",
+    "alternatives": ["clang++"]
+  },
+  "make": {
+    "name": "make",
+    "description": "A tool which controls the generation of executables from source files.",
+    "risk": "Medium",
+    "dangerousFlags": {
+      "clean": "Often deletes compiled files to start fresh. Ensure you don't lose data.",
+      "-j": "Runs multiple jobs simultaneously. Can temporarily freeze a weak computer."
+    },
+    "safeness": "Standard build tool. Ensure your Makefile is trustworthy.",
+    "alternatives": ["ninja", "cmake"]
+  },
+  "cmake": {
+    "name": "CMake",
+    "description": "A cross-platform build system generator.",
+    "risk": "Low",
+    "dangerousFlags": {},
+    "safeness": "Safe. It generates build files for tools like make or ninja.",
+    "alternatives": ["meson"]
+  },
+  "gdb": {
+    "name": "GDB (GNU Debugger)",
+    "description": "A tool to see what is going on inside a program while it executes.",
+    "risk": "Low/Medium",
+    "dangerousFlags": {
+      "run": "Executes the program. Beware of breakpoints!",
+      "attach": "Attaches to a running process."
+    },
+    "safeness": "Safe for debugging, but can stop processes.",
+    "alternatives": ["lldb"]
+  },
+  "rustc": {
+    "name": "rustc",
+    "description": "The Rust compiler.",
+    "risk": "Low",
+    "dangerousFlags": {},
+    "safeness": "Safe. Known for its extremely helpful error messages.",
+    "alternatives": ["cargo (preferred)"]
+  },
+  "cargo": {
+    "name": "Cargo",
+    "description": "The Rust package manager and build tool.",
+    "risk": "Low/Medium",
+    "dangerousFlags": {
+      "publish": "Uploads your crate to crates.io.",
+      "run": "Compiles and runs your binary."
+    },
+    "safeness": "One of the best developer tools in existence. Very safe.",
+    "alternatives": []
+  },
+  "java": {
+    "name": "Java",
+    "description": "The command to run Java applications (JARs or classes).",
+    "risk": "Low",
+    "dangerousFlags": {
+      "-Xmx": "Sets the maximum heap size. Setting it too high can crash your system."
+    },
+    "safeness": "Safe for running trusted apps.",
+    "alternatives": ["kotlin", "scala"]
+  },
+  "javac": {
+    "name": "javac",
+    "description": "The Java compiler.",
+    "risk": "Low",
+    "dangerousFlags": {},
+    "safeness": "Safe for developers.",
+    "alternatives": []
+  },
+  "mvn": {
+    "name": "Maven",
+    "description": "A build automation tool used primarily for Java projects.",
+    "risk": "Low/Medium",
+    "dangerousFlags": {
+      "clean install": "Clears previous builds and installs the package to your local repository.",
+      "deploy": "Uploads the final artifact to a remote repository."
+    },
+    "safeness": "Standard Java build tool.",
+    "alternatives": ["gradle"]
+  },
+  "gradle": {
+    "name": "Gradle",
+    "description": "A flexible build automation tool focusing on performance and customization.",
+    "risk": "Low/Medium",
+    "dangerousFlags": {
+      "clean": "Removes the build directory."
+    },
+    "safeness": "Modern build tool used for Android and Java.",
+    "alternatives": ["mvn"]
+  },
+  "go": {
+    "name": "Go (Golang CLI)",
+    "description": "The tool for managing Go source code.",
+    "risk": "Low",
+    "dangerousFlags": {
+      "build": "Compiles the package.",
+      "run": "Compiles and runs the program."
+    },
+    "safeness": "Safe and very fast.",
+    "alternatives": []
+  },
+  "php": {
+    "name": "PHP CLI",
+    "description": "Command line interface for the PHP scripting language.",
+    "risk": "Low/Medium",
+    "dangerousFlags": {
+      "-r": "Runs PHP code directly from the terminal. Be careful with what you paste!",
+      "-S": "Starts a built-in web server for development."
+    },
+    "safeness": "Safe for server-side development.",
+    "alternatives": []
+  },
+  "ruby": {
+    "name": "Ruby",
+    "description": "The interpreter for the Ruby programming language.",
+    "risk": "Low",
+    "dangerousFlags": {},
+    "safeness": "Safe and elegant.",
+    "alternatives": []
+  },
+  "gem": {
+    "name": "RubyGems",
+    "description": "The package manager for Ruby.",
+    "risk": "Low/Medium",
+    "dangerousFlags": {
+      "uninstall": "Removes a gem.",
+      "cleanup": "Removes old versions of installed gems."
+    },
+    "safeness": "Safe for managing Ruby dependencies.",
+    "alternatives": ["bundler"]
+  },
+  "bundle": {
+    "name": "Bundler",
+    "description": "Manages a Ruby application's dependencies (Gemfile).",
+    "risk": "Low",
+    "dangerousFlags": {
+      "exec": "Runs a command in the context of the bundle."
+    },
+    "safeness": "Safe and standard for Ruby devs.",
+    "alternatives": []
+  },
+  "bash": {
+    "name": "Bash",
+    "description": "The Bourne Again SHell, the most common shell on Linux/macOS.",
+    "risk": "Medium",
+    "dangerousFlags": {
+      "-c": "Runs a command string in the shell."
+    },
+    "safeness": "Safe as a shell, but powerful. Commands run in bash can be anything.",
+    "alternatives": ["zsh", "fish"]
+  },
+  "zsh": {
+    "name": "Zsh",
+    "description": "Z shell, an interactive shell with many improvements over bash.",
+    "risk": "Medium",
+    "dangerousFlags": {},
+    "safeness": "Very popular among developers. Safe.",
+    "alternatives": ["bash", "sh"]
+  },
+  "ps": {
+    "name": "ps (Process Status)",
+    "description": "Displays information about active processes.",
+    "risk": "Zero",
+    "dangerousFlags": {
+      "aux": "Shows all processes for all users. Safe."
+    },
+    "safeness": "Completely safe. It only reads process information.",
+    "alternatives": ["pgrep"]
+  },
+  "killall": {
+    "name": "killall",
+    "description": "Kills all processes with a specific name.",
+    "risk": "Medium/High",
+    "dangerousFlags": {
+      "-9": "Forcefully kills everything matching the name. No data saved!"
+    },
+    "safeness": "Quick way to stop a misbehaving app, but use with care.",
+    "alternatives": ["pkill"]
+  },
+  "uptime": {
+    "name": "uptime",
+    "description": "Shows how long the system has been running.",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Completely safe.",
+    "alternatives": []
+  },
+  "free": {
+    "name": "free",
+    "description": "Displays the amount of free and used memory in the system.",
+    "risk": "Zero",
+    "dangerousFlags": {
+      "-m": "Display in MB.",
+      "-g": "Display in GB."
+    },
+    "safeness": "Safe info utility.",
+    "alternatives": []
+  },
+  "uname": {
+    "name": "uname",
+    "description": "Prints system information (OS name, kernel version).",
+    "risk": "Zero",
+    "dangerousFlags": {
+      "-a": "Prints all known system information."
+    },
+    "safeness": "Safe info utility.",
+    "alternatives": []
+  },
+  "whoami": {
+    "name": "whoami",
+    "description": "Prints the name of the current user.",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Safe and simple.",
+    "alternatives": ["id"]
+  },
+  "awk": {
+    "name": "awk",
+    "description": "A powerful text-processing language for pattern scanning and processing.",
+    "risk": "Low/Medium",
+    "dangerousFlags": {},
+    "safeness": "Safe for processing text, but has a steep learning curve.",
+    "alternatives": ["sed", "perl"]
+  },
+  "sed": {
+    "name": "sed (Stream Editor)",
+    "description": "Used to perform basic text transformations on an input stream.",
+    "risk": "Low/Medium",
+    "dangerousFlags": {
+      "-i": "Edits the file in-place! Can overwrite your data if the regex is wrong."
+    },
+    "safeness": "Powerful text tool. Always test regular expressions without -i first.",
+    "alternatives": []
+  },
+  "tail": {
+    "name": "tail",
+    "description": "Displays the last few lines of a file.",
+    "risk": "Zero",
+    "dangerousFlags": {
+      "-f": "Follow mode: watches the file and prints new lines as they are added. Great for logs."
+    },
+    "safeness": "Completely safe.",
+    "alternatives": []
+  },
+  "head": {
+    "name": "head",
+    "description": "Displays the first few lines of a file.",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Safe.",
+    "alternatives": []
+  },
+  "nano": {
+    "name": "nano",
+    "description": "A simple, user-friendly terminal text editor.",
+    "risk": "Low",
+    "dangerousFlags": {},
+    "safeness": "The safest editor for beginners.",
+    "alternatives": ["micro", "vim"]
+  },
+  "vim": {
+    "name": "vim",
+    "description": "A highly configurable and powerful terminal text editor.",
+    "risk": "Low",
+    "dangerousFlags": {},
+    "safeness": "Safe, but hard to exit! (Hint: Type :q! to leave without saving).",
+    "alternatives": ["neovim", "nano"]
+  },
+  "code": {
+    "name": "VS Code CLI",
+    "description": "The command to open files or folders in Visual Studio Code.",
+    "risk": "Low",
+    "dangerousFlags": {
+      "--install-extension": "Installs a VS Code extension."
+    },
+    "safeness": "Safe and helpful.",
+    "alternatives": []
+  },
+  "history": {
+    "name": "history",
+    "description": "Displays the list of commands you have previously typed.",
+    "risk": "Low",
+    "dangerousFlags": {
+      "-c": "Clears your command history."
+    },
+    "safeness": "Safe, but be careful of clearing it if you need those commands later.",
+    "alternatives": []
+  },
+  "ping": {
+    "name": "ping",
+    "description": "Used to test the reachability of a host on an IP network.",
+    "risk": "Zero/Low",
+    "dangerousFlags": {
+      "-f": "Flood ping. Sends packets as fast as they come back. Can be seen as a DoS attack!"
+    },
+    "safeness": "Safe for testing your connection. Don't \"flood\" servers you don't own.",
+    "alternatives": []
+  },
+  "traceroute": {
+    "name": "traceroute",
+    "description": "Displays the route and measuring transit delays of packets across an IP network.",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Completely safe for network diagnostics.",
+    "alternatives": ["mtr"]
+  },
+  "netstat": {
+    "name": "netstat",
+    "description": "Displays network connections, routing tables, and interface statistics.",
+    "risk": "Zero",
+    "dangerousFlags": {
+      "-p": "Shows which process is using which connection (may require sudo)."
+    },
+    "safeness": "Safe for monitoring network activity.",
+    "alternatives": ["ss"]
+  },
+  "dig": {
+    "name": "dig (Domain Information Groper)",
+    "description": "A tool for interrogating DNS name servers.",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "The best tool for DNS troubleshooting. Safe.",
+    "alternatives": ["nslookup"]
+  },
+  "nslookup": {
+    "name": "nslookup",
+    "description": "A network administration tool for querying DNS.",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Simple DNS tool. Safe.",
+    "alternatives": ["dig"]
+  },
+  "psql": {
+    "name": "psql (PostgreSQL CLI)",
+    "description": "The command-line interface for the PostgreSQL database.",
+    "risk": "High",
+    "dangerousFlags": {
+      "DROP DATABASE": "Permanently deletes a database. NO UNDO!",
+      "DELETE FROM": "Deletes rows from a table. Use with a WHERE clause!"
+    },
+    "safeness": "Safe for queries, but destructive for database management.",
+    "alternatives": ["pgAdmin (Visual tool)"]
+  },
+  "mysql": {
+    "name": "mysql (MySQL CLI)",
+    "description": "The command-line tool for interacting with MySQL/MariaDB databases.",
+    "risk": "High",
+    "dangerousFlags": {
+      "DROP TABLE": "Deletes a table and all its data.",
+      "UPDATE ... SET": "Can overwrite all data in a column if the WHERE clause is missing."
+    },
+    "safeness": "Database tools are powerful. Triple-check your SQL queries before hitting Enter.",
+    "alternatives": ["MySQL Workbench", "DBeaver"]
+  },
+  "redis-cli": {
+    "name": "Redis CLI",
+    "description": "The command-line interface to interact with a Redis server.",
+    "risk": "High",
+    "dangerousFlags": {
+      "FLUSHALL": "Deletes EVERY SINGLE KEY from every database on the server! EXTREMELY DESTRUCTIVE.",
+      "FLUSHDB": "Deletes all keys in the current database."
+    },
+    "safeness": "Safe for key-value checks, but \"FLUSH\" commands are catastrophic in production.",
+    "alternatives": []
+  },
+  "sqlite3": {
+    "name": "SQLite3",
+    "description": "A terminal-based front-end to the SQLite library.",
+    "risk": "Medium",
+    "dangerousFlags": {
+      ".open": "Opens a database file.",
+      ".quit": "Exits the CLI."
+    },
+    "safeness": "Generally safe since it works on local files.",
+    "alternatives": []
+  },
+  "aws": {
+    "name": "AWS CLI",
+    "description": "Universal command line interface for Amazon Web Services.",
+    "risk": "High",
+    "dangerousFlags": {
+      "s3 rb --force": "Forcibly deletes an S3 bucket and all objects inside it.",
+      "ec2 terminate-instances": "Permanently destroys a cloud server."
+    },
+    "safeness": "Extremely powerful. Controlling cloud resources via CLI can lead to high costs if mismanaged.",
+    "alternatives": ["AWS Console (Web UI)"]
+  },
+  "gcloud": {
+    "name": "Google Cloud CLI",
+    "description": "Tool to create and manage Google Cloud resources.",
+    "risk": "High",
+    "dangerousFlags": {
+      "compute instances delete": "Deletes a VM instance.",
+      "projects delete": "Deletes an entire project!"
+    },
+    "safeness": "Cloud tools require absolute focus. Always check your project ID.",
+    "alternatives": ["GCP Console"]
+  },
+  "ssh-keygen": {
+    "name": "ssh-keygen",
+    "description": "Used to generate, manage, and convert authentication keys for SSH.",
+    "risk": "Low/Medium",
+    "dangerousFlags": {
+      "-f": "Specifies the filename. If you point it to an existing key, it might overwrite it!"
+    },
+    "safeness": "Safe for creating keys. Never share your private key (the one without .pub).",
+    "alternatives": []
+  },
+  "crontab": {
+    "name": "crontab",
+    "description": "Used to schedule commands to run automatically at specific times.",
+    "risk": "Medium",
+    "dangerousFlags": {
+      "-r": "Deletes your entire crontab schedule! Many users type this by mistake when they meant -e."
+    },
+    "safeness": "Safe for scheduling tasks. Use \"crontab -l\" to list and \"crontab -e\" to edit.",
+    "alternatives": ["Systemd timers"]
+  },
+  "systemctl": {
+    "name": "systemctl",
+    "description": "Controls the systemd system and service manager.",
+    "risk": "Medium/High",
+    "dangerousFlags": {
+      "stop": "Stops a service. Can break system functionality if it's a core service.",
+      "disable": "Prevents a service from starting at boot.",
+      "mask": "Completely prevents a service from being started (even manually)."
+    },
+    "safeness": "The standard way to manage services on modern Linux. Safe if you know the service name.",
+    "alternatives": ["service (legacy)"]
+  },
   "pip": {
     "name": "PIP (Python Package Installer)",
     "description": "The standard package manager for Python.",
