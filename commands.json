@@ -93,6 +93,129 @@
     "safeness": "Safe for viewing text files. Be careful with binary files as they can mess up your terminal display!",
     "alternatives": ["less (better for large files)", "bat (modern version)"]
   },
+  "mount": {
+    "name": "mount",
+    "description": "Attaches a filesystem found on a device to the big filesystem tree.",
+    "risk": "High",
+    "dangerousFlags": {
+      "-o remount,rw": "Remounts a filesystem with write permissions. Dangerous for system partitions."
+    },
+    "safeness": "Fundamental for using drives. Safe if you point to the right device.",
+    "alternatives": []
+  },
+  "umount": {
+    "name": "umount (Unmount)",
+    "description": "Detaches a mounted filesystem.",
+    "risk": "Medium",
+    "dangerousFlags": {
+      "-f": "Forces unmount. Can lead to data loss if files are being written!"
+    },
+    "safeness": "Always unmount before unplugging a USB drive to avoid data corruption.",
+    "alternatives": []
+  },
+  "fdisk": {
+    "name": "fdisk",
+    "description": "A dialog-driven program for creation and manipulation of partition tables.",
+    "risk": "Critical",
+    "dangerousFlags": {},
+    "safeness": "EXTREMELY DANGEROUS. Can wipe your entire hard drive by deleting partitions.",
+    "alternatives": ["cfdisk (easier)", "GParted"]
+  },
+  "lsblk": {
+    "name": "lsblk (List Block Devices)",
+    "description": "Lists information about all available or the specified block devices (disks, partitions).",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Completely safe. The best way to see your disks before mounting them.",
+    "alternatives": []
+  },
+  "stat": {
+    "name": "stat",
+    "description": "Displays detailed status and metadata of a file or directory (size, permissions, timestamps).",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Completely safe. More detailed than \"ls\".",
+    "alternatives": []
+  },
+  "file": {
+    "name": "file",
+    "description": "Determines the type of a file (e.g., JPEG image, ASCII text, ELF binary).",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Completely safe. Works even if the file extension is wrong or missing.",
+    "alternatives": []
+  },
+  "shred": {
+    "name": "shred",
+    "description": "Overwrites a file to hide its contents, and optionally deletes it.",
+    "risk": "High",
+    "dangerousFlags": {
+      "-u": "Deletes the file after overwriting.",
+      "-n": "Number of times to overwrite. More is safer but slower."
+    },
+    "safeness": "Permanent! Files shredded cannot be recovered by standard tools.",
+    "alternatives": ["rm"]
+  },
+  "sync": {
+    "name": "sync",
+    "description": "Synchronizes cached writes to persistent storage. Ensures all pending data is written to disk.",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Completely safe. Recommended before unmounting or shutting down after a big copy.",
+    "alternatives": []
+  },
+  "tree": {
+    "name": "tree",
+    "description": "Lists contents of directories in a tree-like format.",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Completely safe and very visual.",
+    "alternatives": ["ls -R"]
+  },
+  "wc": {
+    "name": "wc (Word Count)",
+    "description": "Displays the number of lines, words, and characters in a file.",
+    "risk": "Zero",
+    "dangerousFlags": {
+      "-l": "Prints only the line count."
+    },
+    "safeness": "Completely safe.",
+    "alternatives": []
+  },
+  "diff": {
+    "name": "diff",
+    "description": "Compares files line by line and shows the differences.",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Completely safe.",
+    "alternatives": ["icdiff (colored diff)"]
+  },
+  "lsof": {
+    "name": "lsof (List Open Files)",
+    "description": "Lists information about files opened by processes.",
+    "risk": "Zero",
+    "dangerousFlags": {
+      "-i": "Lists files used for network connections (very helpful!)."
+    },
+    "safeness": "Safe and extremely useful for debugging \"file in use\" errors.",
+    "alternatives": []
+  },
+  "which": {
+    "name": "which",
+    "description": "Shows the full path of executable files in your PATH.",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Safe and simple.",
+    "alternatives": ["type -a", "whereis"]
+  },
+  "locate": {
+    "name": "locate",
+    "description": "Finds files by name quickly using a pre-built database.",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Safe. Faster than \"find\" but may not show brand new files.",
+    "alternatives": ["find", "fd"]
+  },
   "ssh": {
     "name": "ssh (Secure Shell)",
     "description": "Provides a secure encrypted connection to a remote computer.",
@@ -176,6 +299,149 @@
     "risk": "Zero",
     "dangerousFlags": {},
     "safeness": "Safe. Use it whenever your terminal gets too messy!",
+    "alternatives": []
+  },
+  "npm-audit": {
+    "name": "npm audit",
+    "description": "Checks your project dependencies for known security vulnerabilities.",
+    "risk": "Zero",
+    "dangerousFlags": {
+      "fix": "Automatically installs compatible updates to vulnerable dependencies."
+    },
+    "safeness": "Highly recommended for security. Safe.",
+    "alternatives": ["snyk test"]
+  },
+  "npm-prune": {
+    "name": "npm prune",
+    "description": "Removes packages from node_modules that are not listed in package.json.",
+    "risk": "Low/Medium",
+    "dangerousFlags": {
+      "--production": "Removes devDependencies. Useful for deployment."
+    },
+    "safeness": "Safe. It cleans up your project size by deleting unneeded code.",
+    "alternatives": []
+  },
+  "nvm": {
+    "name": "NVM (Node Version Manager)",
+    "description": "Allows you to easily install and switch between different Node.js versions.",
+    "risk": "Low",
+    "dangerousFlags": {
+      "install": "Installs a new Node version.",
+      "use": "Switches the current terminal session to a specific version."
+    },
+    "safeness": "Essential tool for Node developers. Very safe.",
+    "alternatives": ["fnm", "asdf"]
+  },
+  "nodemon": {
+    "name": "Nodemon",
+    "description": "Automatically restarts your Node.js application when file changes are detected.",
+    "risk": "Low",
+    "dangerousFlags": {},
+    "safeness": "Great for development speed. Safe.",
+    "alternatives": ["node --watch (native in Node 18+)"]
+  },
+  "ts-node": {
+    "name": "ts-node",
+    "description": "Executes TypeScript files directly without manual compilation.",
+    "risk": "Low",
+    "dangerousFlags": {},
+    "safeness": "Safe for development and scripting.",
+    "alternatives": ["tsx", "bun"]
+  },
+  "black": {
+    "name": "Black",
+    "description": "The uncompromising Python code formatter.",
+    "risk": "Low",
+    "dangerousFlags": {
+      "--check": "Checks if files are formatted without actually changing them."
+    },
+    "safeness": "Safe. It modifies your files to look professional and consistent.",
+    "alternatives": ["autopep8", "yapf"]
+  },
+  "flake8": {
+    "name": "Flake8",
+    "description": "A tool that checks your Python code for errors and styling violations.",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Completely safe. It only reads your code and reports issues.",
+    "alternatives": ["pylint", "ruff"]
+  },
+  "isort": {
+    "name": "isort",
+    "description": "Automatically sorts and categorizes your Python imports.",
+    "risk": "Low",
+    "dangerousFlags": {},
+    "safeness": "Safe. Keeps your code clean and organized.",
+    "alternatives": ["ruff"]
+  },
+  "jupyter": {
+    "name": "Jupyter Notebook",
+    "description": "An interactive web-based environment for Python and Data Science.",
+    "risk": "Low",
+    "dangerousFlags": {
+      "notebook": "Starts the notebook server."
+    },
+    "safeness": "Safe tool for interactive coding.",
+    "alternatives": ["Google Colab", "VS Code Notebooks"]
+  },
+  "pyenv": {
+    "name": "Pyenv",
+    "description": "Allows you to manage multiple versions of Python on one machine.",
+    "risk": "Low",
+    "dangerousFlags": {
+      "install": "Downloads and compiles a new Python version."
+    },
+    "safeness": "Safe and essential for Python developers.",
+    "alternatives": ["conda", "asdf"]
+  },
+  "django-admin": {
+    "name": "django-admin",
+    "description": "CLI tool for managing Django web frameworks.",
+    "risk": "Low/Medium",
+    "dangerousFlags": {
+      "startproject": "Creates a new project structure.",
+      "makemigrations": "Prepares database changes."
+    },
+    "safeness": "Standard tool for Django developers.",
+    "alternatives": ["python manage.py"]
+  },
+  "flask": {
+    "name": "Flask CLI",
+    "description": "Management tool for Flask web applications.",
+    "risk": "Low/Medium",
+    "dangerousFlags": {
+      "run": "Starts the development server."
+    },
+    "safeness": "Safe for web development.",
+    "alternatives": []
+  },
+  "du": {
+    "name": "du (Disk Usage)",
+    "description": "Checks the size of files and directories.",
+    "risk": "Zero",
+    "dangerousFlags": {
+      "-sh": "Summary and Human-readable (e.g., 200M, 4G). Highly recommended!"
+    },
+    "safeness": "Completely safe. Helpful for finding what is eating your disk space.",
+    "alternatives": ["ncdu (interactive visual tool)"]
+  },
+  "nc": {
+    "name": "nc (Netcat)",
+    "description": "The \"Swiss Army Knife\" of networking. Used to read and write data across network connections.",
+    "risk": "Medium/High",
+    "dangerousFlags": {
+      "-l": "Listen mode: waits for an incoming connection.",
+      "-e": "Executes a program upon connection. EXTREMELY DANGEROUS (can be used for backdoors)!"
+    },
+    "safeness": "Powerful network tool. Use with care. Avoid -e unless you know exactly what you are doing.",
+    "alternatives": ["ncat"]
+  },
+  "whois": {
+    "name": "whois",
+    "description": "Queries databases that store the registered users or assignees of an internet resource.",
+    "risk": "Zero",
+    "dangerousFlags": {},
+    "safeness": "Safe for checking domain ownership and info.",
     "alternatives": []
   },
   "yarn": {
