@@ -1400,6 +1400,75 @@
     "safeness": "Completely safe. Use it as much as you want!",
     "alternatives": []
   },
+  "docker ps": {
+    "name": "Docker PS",
+    "description": "Lists running containers.",
+    "risk": "Zero",
+    "dangerousFlags": {
+      "-a": "Shows all containers (including stopped ones).",
+      "-q": "Quiet mode: only shows container IDs. Great for scripting."
+    },
+    "safeness": "Completely safe information tool.",
+    "alternatives": ["docker container ls"]
+  },
+  "docker run": {
+    "name": "Docker Run",
+    "description": "Creates and starts a new container from an image.",
+    "risk": "Medium",
+    "dangerousFlags": {
+      "-d": "Runs the container in the background (detached mode).",
+      "--rm": "Automatically removes the container when it exits. Good for keeping your system clean!",
+      "-v": "Mounts a volume. Be careful not to overwrite your host files!",
+      "--network host": "Gives the container full access to your host's network. Security risk!"
+    },
+    "safeness": "Standard way to start apps. Use --rm to avoid clutter.",
+    "alternatives": ["docker-compose up"]
+  },
+  "docker exec": {
+    "name": "Docker Exec",
+    "description": "Runs a new command in a currently running container.",
+    "risk": "Medium/High",
+    "dangerousFlags": {
+      "-it": "Interactive and TTY mode. Used to open a shell inside a container.",
+      "-u root": "Runs the command as root inside the container."
+    },
+    "safeness": "Extremely useful for debugging. Be careful when running destructive commands as root inside containers.",
+    "alternatives": []
+  },
+  "docker build": {
+    "name": "Docker Build",
+    "description": "Builds an image from a Dockerfile.",
+    "risk": "Low/Medium",
+    "dangerousFlags": {
+      "-t": "Tags the image with a name. Don't forget the dot (.) at the end of the command!",
+      "--no-cache": "Forces Docker to rebuild every layer from scratch."
+    },
+    "safeness": "Safe for developers. Ensure your Dockerfile doesn't contain secrets (passwords).",
+    "alternatives": []
+  },
+  "docker compose": {
+    "name": "Docker Compose",
+    "description": "A tool for defining and running multi-container Docker applications.",
+    "risk": "Medium",
+    "dangerousFlags": {
+      "up -d": "Starts all containers in the background.",
+      "down -v": "Stops containers and DELETES their volumes. Data loss risk!",
+      "logs -f": "Follows the logs of all containers."
+    },
+    "safeness": "The best way to manage complex apps. Use 'down' without '-v' if you want to keep your data.",
+    "alternatives": ["docker stack deploy"]
+  },
+  "docker system": {
+    "name": "Docker System",
+    "description": "Commands for managing the Docker environment as a whole.",
+    "risk": "High",
+    "dangerousFlags": {
+      "prune -a": "Deletes ALL unused containers, networks, images, and optionally volumes. This is a big cleanup!",
+      "df": "Shows disk usage by Docker."
+    },
+    "safeness": "Use 'prune' carefully to save disk space, but remember it deletes anything not currently in use.",
+    "alternatives": []
+  },
   ":(){ :|:& };:": {
     "name": "Fork Bomb",
     "description": "A shell function that calls itself multiple times until the system crashes.",
