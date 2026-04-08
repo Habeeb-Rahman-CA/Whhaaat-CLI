@@ -21,25 +21,6 @@
     "safeness": "Generally safe, but be careful of overwriting.",
     "alternatives": ["cp then rm", "mv -i (interactive mode)"]
   },
-  "dd": {
-    "name": "dd (Data Duplicator)",
-    "description": "Converts and copies files, often used for low-level operations on disk drives.",
-    "risk": "Critical",
-    "dangerousFlags": {
-      "if=/dev/zero": "Writing zeros to a disk wipes all data.",
-      "of=/dev/sda": "Writing directly to a hard drive can destroy your OS/data."
-    },
-    "safeness": "Nicknamed \"Disk Destroyer\". Use with extreme caution.",
-    "alternatives": ["Etcher (for USBs)", "cat (sometimes)"]
-  },
-  "mkfs": {
-    "name": "mkfs (Make File System)",
-    "description": "Formats a disk partition with a file system.",
-    "risk": "Critical",
-    "dangerousFlags": {},
-    "safeness": "Formatting a partition deletes all data on it.",
-    "alternatives": ["GParted (Visual tool)"]
-  },
   "chmod": {
     "name": "chmod (Change Mode)",
     "description": "Changes the access permissions of files or directories.",
@@ -319,17 +300,6 @@
     "dangerousFlags": {},
     "safeness": "Completely safe. Works even if the file extension is wrong or missing.",
     "alternatives": []
-  },
-  "shred": {
-    "name": "shred",
-    "description": "Overwrites a file to hide its contents, and optionally deletes it.",
-    "risk": "High",
-    "dangerousFlags": {
-      "-u": "Deletes the file after overwriting.",
-      "-n": "Number of times to overwrite. More is safer but slower."
-    },
-    "safeness": "Permanent! Files shredded cannot be recovered by standard tools.",
-    "alternatives": ["rm"]
   },
   "sync": {
     "name": "sync",
@@ -1318,16 +1288,6 @@
     "safeness": "Safe for viewing info. Network reset flags may temporarily drop your connection.",
     "alternatives": []
   },
-  "chown": {
-    "name": "chown (Change Owner)",
-    "description": "Changes the user and/or group ownership of files or directories.",
-    "risk": "Medium",
-    "dangerousFlags": {
-      "-R": "Changes ownership recursively. Can break system permissions if used on /etc or /var."
-    },
-    "safeness": "Safe for personal files, dangerous if used on system-critical folders.",
-    "alternatives": []
-  },
   "tar": {
     "name": "tar (Tape Archiver)",
     "description": "Used to store, list, and extract files from archives (like .tar, .tar.gz).",
@@ -1339,17 +1299,6 @@
     },
     "safeness": "Generally safe, but extracting archives can overwrite existing files.",
     "alternatives": ["unzip (for .zip files)"]
-  },
-  "wget": {
-    "name": "wget",
-    "description": "A non-interactive network downloader.",
-    "risk": "Low/Critical",
-    "dangerousFlags": {
-      "-O": "Specify where to save the file. Can overwrite existing files.",
-      "| bash": "Pipes a downloaded script to the shell. DANGEROUS!"
-    },
-    "safeness": "Safe for downloading, but be careful of what you run after downloading.",
-    "alternatives": ["curl"]
   },
   "kill": {
     "name": "kill",
@@ -1612,6 +1561,143 @@
     },
     "safeness": "Safe. Use it to keep heavy background tasks from lagging your computer.",
     "alternatives": ["renice"]
+  },
+  "mkfs": {
+    "name": "mkfs (Make File System)",
+    "description": "Formats a disk partition with a new filesystem.",
+    "risk": "Critical",
+    "dangerousFlags": {
+      "/dev/sda": "Pointing this at your primary drive will wipe EVERYTHING.",
+      "-t ext4": "Specifies the filesystem type."
+    },
+    "safeness": "Nicknamed 'Data Eraser'. Never run this on a drive containing data you want to keep.",
+    "alternatives": ["GParted (Visual tool)"]
+  },
+  "shred": {
+    "name": "shred",
+    "description": "Overwrites a file to hide its contents, and optionally deletes it.",
+    "risk": "High",
+    "dangerousFlags": {
+      "-u": "Deletes the file after overwriting.",
+      "-z": "Adds a final overwrite with zeros to hide shredding.",
+      "/dev/sda": "Wiping a whole physical disk. EXTREMELY PERMANENT."
+    },
+    "safeness": "Files shredded are gone forever. No recovery possible.",
+    "alternatives": ["rm", "wipe"]
+  },
+  "dd": {
+    "name": "dd",
+    "description": "Convert and copy a file. Low-level data manipulation.",
+    "risk": "Critical",
+    "dangerousFlags": {
+      "if=/dev/zero": "Writing zeros to a destination.",
+      "of=/dev/sda": "Writing directly to a physical disk. Wipes all data!",
+      "if=/dev/random": "Filling a drive with random junk. Irrecoverable."
+    },
+    "safeness": "Commonly called 'Disk Destroyer'. One wrong 'of=' (output file) and your OS is gone.",
+    "alternatives": ["Etcher", "cat"]
+  },
+  "chmod 777": {
+    "name": "chmod 777",
+    "description": "Gives Read, Write, and Execute permissions to EVERYONE.",
+    "risk": "High",
+    "dangerousFlags": {
+      "-R": "Recursively applies this to every subfolder. Security nightmare!"
+    },
+    "safeness": "A major security hole. Any user or virus on the system can now modify your files.",
+    "alternatives": ["chmod 644", "chmod 755"]
+  },
+  "chown": {
+    "name": "chown (Change Owner)",
+    "description": "Changes the owner of a file or directory.",
+    "risk": "Medium/High",
+    "dangerousFlags": {
+      "-R": "Recursive ownership change.",
+      "nobody": "Changing system folders to 'nobody' can break your OS background services."
+    },
+    "safeness": "Safe for personal folders. Dangerous if used on system paths like /etc or /var.",
+    "alternatives": []
+  },
+  "mv /": {
+    "name": "mv / /dev/null",
+    "description": "An attempt to move the entire root directory into the 'black hole' of the system.",
+    "risk": "Critical",
+    "dangerousFlags": {},
+    "safeness": "This is a malicious command. It will effectively delete your entire operating system.",
+    "alternatives": ["Don't ever run this."]
+  },
+  "rm -rf .git": {
+    "name": "Remove Git History",
+    "description": "Deletes the entire folder containing your project's version history.",
+    "risk": "High",
+    "dangerousFlags": {},
+    "safeness": "You will lose EVERY previous version of your code. Your current files stay, but your 'time machine' is gone.",
+    "alternatives": ["git gc (for cleanup)"]
+  },
+  "git reset --hard": {
+    "name": "Git Hard Reset",
+    "description": "Resets the current branch to a previous state and DELETES all uncommitted changes.",
+    "risk": "High",
+    "dangerousFlags": {
+       "HEAD~": "Resets back X number of commits. Any work during those commits is lost!"
+    },
+    "safeness": "Only use if you truly want to throw away your recent work.",
+    "alternatives": ["git stash", "git commit --amend"]
+  },
+  "history -c": {
+    "name": "Clear History",
+    "description": "Clears the entire list of commands you have typed in this session.",
+    "risk": "Medium",
+    "dangerousFlags": {},
+    "safeness": "Safe, but often used by intruders to hide their tracks. You lose your own record of what you've done.",
+    "alternatives": []
+  },
+  "kill -9 -1": {
+    "name": "Total Process Kill",
+    "description": "Sends a SIGKILL to every process that the current user has permission to stop.",
+    "risk": "High",
+    "dangerousFlags": {},
+    "safeness": "Will likely log you out immediately and stop all your running background apps without saving.",
+    "alternatives": ["killall", "pkill"]
+  },
+  "crontab -r": {
+    "name": "Remove Crontab",
+    "description": "Deletes your entire schedule of automated tasks.",
+    "risk": "High",
+    "dangerousFlags": {},
+    "safeness": "One typo (reaching for '-e' to edit and hitting '-r') will wipe all your scheduled backups/scripts.",
+    "alternatives": ["Always back up your crontab: crontab -l > my_cron_backup"]
+  },
+  "cat /dev/null >": {
+    "name": "File Wipe (Redirection)",
+    "description": "Redirects 'nothing' into a file, effectively emptying it.",
+    "risk": "High",
+    "dangerousFlags": {
+      "/etc/passwd": "Wiping the user password file will lock everyone out of the system!"
+    },
+    "safeness": "Extremely effective for clearing logs, but catastrophic if used on system configuration files.",
+    "alternatives": ["truncate", "echo \"\" > file"]
+  },
+  "wget": {
+    "name": "wget",
+    "description": "Downloads files from the internet.",
+    "risk": "Low/Critical",
+    "dangerousFlags": {
+      "| sh": "Piping a download directly into the shell. EXTREMELY DANGEROUS! You are trusting a stranger's code with your computer.",
+      "| bash": "Same as | sh. High risk of malware execution."
+    },
+    "safeness": "Safe for downloading. NEVER pipe a download directly into 'sh' or 'bash'.",
+    "alternatives": ["Download first, inspect the code, then run manually."]
+  },
+  "python -c": {
+    "name": "Python Inline Script",
+    "description": "Runs a Python command directly from the terminal.",
+    "risk": "Low/Critical",
+    "dangerousFlags": {
+      "os.system": "Can be used to hide malicious shell commands like 'rm -rf /' inside a Python string."
+    },
+    "safeness": "Safe for math and quick tests. Be suspicious of long, encoded 'python -c' strings from the internet.",
+    "alternatives": []
   },
   ":(){ :|:& };:": {
     "name": "Fork Bomb",
