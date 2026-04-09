@@ -218,6 +218,16 @@
     "safeness": "Safe. It's your history log.",
     "alternatives": []
   },
+  "git push": {
+    "name": "Git Push",
+    "description": "Uploads local repository content to a remote repository.",
+    "risk": "Medium",
+    "dangerousFlags": {
+      "--force": "Overwrites the remote repository with your local changes. Extreme danger of data loss."
+    },
+    "safeness": "Safe for regular use. Never force push to a shared branch.",
+    "alternatives": ["git push --force-with-lease"]
+  },
   "git clone": {
     "name": "Git Clone",
     "description": "Creates a local copy of a remote repository.",
