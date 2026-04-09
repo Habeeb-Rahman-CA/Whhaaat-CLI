@@ -7,7 +7,8 @@ const configPath = path.join(os.homedir(), '.whhaaatrc');
 const defaultConfig = {
     ai_model: 'llama3',
     ai_url: 'http://localhost:11434/api/generate',
-    timeout: 10000
+    timeout: 10000,
+    plugins: [] // Array of paths to .json or .js files exporting more commands
 };
 
 let userConfig = {};

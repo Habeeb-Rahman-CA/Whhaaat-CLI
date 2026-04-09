@@ -30,6 +30,36 @@ export const saveToCache = (cmdKey, data) => {
     fs.writeFileSync(cachePath, JSON.stringify(cacheData, null, 2), 'utf8');
 };
 
+import { config } from './config.js';
+import chalk from 'chalk';
+
+if (config.plugins && Array.isArray(config.plugins)) {
+    for (let p of config.plugins) {
+        try {
+            // Support resolving `~` manually if provided in the array
+            if (p.startsWith('~/')) p = path.join(os.homedir(), p.slice(2));
+            const pluginPath = path.resolve(p);
+
+            if (fs.existsSync(pluginPath)) {
+                if (pluginPath.endsWith('.json')) {
+                    const pluginData = JSON.parse(fs.readFileSync(pluginPath, 'utf8'));
+                    Object.assign(commandsData, pluginData);
+                } else if (pluginPath.endsWith('.js') || pluginPath.endsWith('.mjs')) {
+                    const prefix = os.platform() === 'win32' ? 'file:///' : 'file://';
+                    const pluginModule = await import(prefix + pluginPath);
+                    if (pluginModule.commands) {
+                        Object.assign(commandsData, pluginModule.commands);
+                    }
+                }
+            } else {
+                console.error(chalk.yellow(`\n[!] Warning: Plugin file not found at ${pluginPath}`));
+            }
+        } catch (e) {
+            console.error(chalk.yellow(`\n[!] Warning: Failed to load plugin ${p}:\n  ${e.message}`));
+        }
+    }
+}
+
 export const explainCommand = async (fullCommand) => {
     let bestMatch = null;
     let minDistance = Infinity;
