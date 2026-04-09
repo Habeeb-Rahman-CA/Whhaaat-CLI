@@ -2,10 +2,10 @@
   "name": "whhaaat-cli",
   "version": "1.0.0",
   "description": "A CLI tool to explain terminal commands in simple English.",
-  "main": "index.js",
+  "main": "src/explain.js",
   "type": "module",
   "bin": {
-    "whhaaat": "./index.js"
+    "whhaaat": "./bin/whhaaat.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
