@@ -209,7 +209,7 @@ program
         }
 
         let cmdToExplain = commandArgs;
-        if (commandArgs[0] === 'explain') {
+        if (commandArgs[0] === 'whhaaat') {
             cmdToExplain = commandArgs.slice(1);
         }
 
