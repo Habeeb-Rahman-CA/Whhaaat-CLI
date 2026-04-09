@@ -2,12 +2,13 @@ import axios from 'axios';
 import ora from 'ora';
 import chalk from 'chalk';
 import { showUnknownCommandBox, displayExplanation } from './ui.js';
+import { config } from './config.js';
 
 export const askAI = async (fullCommand) => {
     const aiSpinner = ora(chalk.cyan('Consulting AI Smart Mode...')).start();
     try {
-        const response = await axios.post('http://localhost:11434/api/generate', {
-            model: 'llama3', // Or whhaaat-ai if user changes it
+        const response = await axios.post(config.ai_url, {
+            model: config.ai_model,
             prompt: `Explain the terminal command '${fullCommand}' in simple English for a beginner. 
             Output ONLY a JSON object without any markdown or extra text. 
             The JSON MUST have these keys: 
@@ -18,7 +19,7 @@ export const askAI = async (fullCommand) => {
             "safeness" (short safety tip), 
             "alternatives" (array of strings).`,
             stream: false
-        }, { timeout: 10000 });
+        }, { timeout: config.timeout || 10000 });
 
         aiSpinner.stop();
         
