@@ -20,11 +20,13 @@ A premium command-line interface tool designed to explain complex or dangerous t
 - **Smart Autocomplete**: Includes a built-in typo correction engine (e.g., automatically suggesting `git push` if `git pus` is provided).
 - **Safer Alternatives**: Recommends non-destructive ways to achieve the same result.
 - **AI Fallback**: Automatically invokes a local LLM via Ollama to generate explanations for unfamiliar commands.
+- **Auto-Caching**: AI generated answers are permanently cached and instantly mapped to your autocomplete engine.
+- **Extensible**: Fully configuration-driven via `~/.whhaaatrc` plugins and API overrides.
 - **Polished Terminal UI**: Rendered with clean typography, boxes, and gradient elements.
 
 ## Prerequisites
 
-- Node.js (version 14.x or higher is recommended)
+- Node.js (version 18.x or higher is strictly required)
 - npm or yarn package manager
 - (Optional) [Ollama](https://ollama.com/) installed locally for dynamic AI-generated explanations.
 
@@ -59,6 +61,24 @@ whhaaat git pus
 # Passing the ignore keyword explicitly
 whhaaat whhaaat ls
 ```
+
+## Configuration & Plugins
+
+Upon its first execution, the CLI automatically generates a `~/.whhaaatrc` configuration file in your home directory:
+
+```json
+{
+  "ai_model": "llama3",
+  "ai_url": "http://localhost:11434/api/generate",
+  "timeout": 10000,
+  "plugins": []
+}
+```
+
+### Writing Plugins
+You can easily inject custom command logic without modifying the package source. Add absolute paths to the `plugins` array in your `~/.whhaaatrc`:
+- **JSON files**: `["~/my-company-commands.json"]` will merge custom JSON schema commands into memory.
+- **Javascript scripts**: `["~/my-plugin.js"]` will dynamically `import()` your Javascript and extract any `export const commands = {}` objects automatically.
 
 ## AI Fallback Setup
 
@@ -99,7 +119,7 @@ The JSON MUST have these exact keys:
 ollama create whhaaat-ai -f ./Modelfile
 ```
 
-3. Open `index.js`, find the AI generation block, and update the model key from `'llama3'` to `'whhaaat-ai'`.
+3. Open your `~/.whhaaatrc` file and update the `ai_model` key from `"llama3"` to `"whhaaat-ai"`.
 
 ## Built With
 
@@ -124,4 +144,4 @@ Contributions make the open-source community such an amazing place to learn, ins
 
 ## License
 
-Distributed under the ISC License.
+Distributed under the MIT License.
