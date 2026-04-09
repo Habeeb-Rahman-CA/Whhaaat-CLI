@@ -10,7 +10,17 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const commandsPath = path.join(__dirname, 'data', 'commands.json');
-export const commandsData = JSON.parse(fs.readFileSync(commandsPath, 'utf8'));
+export let commandsData = {};
+
+try {
+    if (fs.existsSync(commandsPath)) {
+        commandsData = JSON.parse(fs.readFileSync(commandsPath, 'utf8'));
+    } else {
+        console.warn(`\n[!] Warning: Local commands.json not found at ${commandsPath}\n`);
+    }
+} catch (e) {
+    throw new Error(`The core commands database is corrupted. Failed to parse JSON: ${e.message}`);
+}
 
 export const cachePath = path.join(os.homedir(), '.whhaaat_cache.json');
 
