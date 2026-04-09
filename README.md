@@ -68,9 +68,38 @@ To enable this feature:
 
 1. Install [Ollama](https://ollama.com/). On Linux/macOS, you can run: `curl -fsSL https://ollama.com/install.sh | sh`
 2. Start the Ollama background service in a separate terminal with `ollama serve`.
-3. Download the targeted `llama3` model by running `ollama pull llama3`.
+3. Download the targeted model by running `ollama pull llama3`.
 
-The CLI will automatically reach out to `http://localhost:11434` when the AI fallback is triggered. No further configuration is necessary in the code.
+The CLI will automatically reach out to `http://localhost:11434` when the AI fallback is triggered. By default, it expects the base `llama3` model.
+
+### Training a Custom Model (Recommended)
+
+To make the AI more stable and force it to adhere strictly to the JSON format, it is highly recommended to "train" a custom model by making use of a `Modelfile`. 
+
+1. Create a `Modelfile` in the root of the project:
+```dockerfile
+FROM llama3
+PARAMETER temperature 0.2
+SYSTEM """
+You are the backend AI for 'Whhaaat CLI', an expert developer terminal assistant. 
+Whenever you receive a terminal command, you MUST explain it in simple English for a beginner.
+You MUST output ONLY a pure, valid JSON object. No markdown formatting, no backticks, no introduction.
+The JSON MUST have these exact keys:
+- "name" (string)
+- "description" (string)
+- "risk" (one of: Zero, Low, Medium, High, Critical)
+- "dangerousFlags" (object where keys are flags and values are short descriptions)
+- "safeness" (short safety tip)
+- "alternatives" (array of strings)
+"""
+```
+
+2. Compile your custom model by running:
+```bash
+ollama create whhaaat-ai -f ./Modelfile
+```
+
+3. Open `index.js`, find the AI generation block, and update the model key from `'llama3'` to `'whhaaat-ai'`.
 
 ## Built With
 
