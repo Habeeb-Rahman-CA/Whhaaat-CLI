@@ -1,4 +1,5 @@
 import fs from 'fs';
+import os from 'os';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { distance } from 'fastest-levenshtein';
@@ -9,7 +10,25 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const commandsPath = path.join(__dirname, 'data', 'commands.json');
-const commandsData = JSON.parse(fs.readFileSync(commandsPath, 'utf8'));
+export const commandsData = JSON.parse(fs.readFileSync(commandsPath, 'utf8'));
+
+export const cachePath = path.join(os.homedir(), '.whhaaat_cache.json');
+
+export let cacheData = {};
+if (fs.existsSync(cachePath)) {
+    try {
+        cacheData = JSON.parse(fs.readFileSync(cachePath, 'utf8'));
+        Object.assign(commandsData, cacheData);
+    } catch (e) {
+        // Corrupted cache, ignore
+    }
+}
+
+export const saveToCache = (cmdKey, data) => {
+    cacheData[cmdKey] = data;
+    Object.assign(commandsData, cacheData);
+    fs.writeFileSync(cachePath, JSON.stringify(cacheData, null, 2), 'utf8');
+};
 
 export const explainCommand = async (fullCommand) => {
     let bestMatch = null;
@@ -69,7 +88,10 @@ export const explainCommand = async (fullCommand) => {
         }
 
         // Trigger AI Smart Mode
-        await askAI(fullCommand);
+        const aiResult = await askAI(fullCommand);
+        if (aiResult) {
+            saveToCache(fullCommand, aiResult);
+        }
         return;
     }
 

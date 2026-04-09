@@ -25,6 +25,7 @@ export const askAI = async (fullCommand) => {
         try {
             const result = JSON.parse(response.data.response);
             displayExplanation(result, fullCommand, true);
+            return result;
         } catch (parseError) {
             throw new Error('AI returned invalid format');
         }
