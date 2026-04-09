@@ -33,22 +33,26 @@ export const showUnknownCommandBox = (baseCommand) => {
 };
 
 export const displayExplanation = (data, fullCommand = '', isAI = false) => {
+    if (!data || typeof data !== 'object') {
+        data = { name: fullCommand, description: 'No valid data provided for this command.', risk: 'Unknown', safeness: 'Unknown' };
+    }
+
     let output = '';
 
     if (isAI) {
         output += chalk.italic.magenta(`🤖 AI Generated Explanation\n\n`);
     }
 
-    output += chalk.bold.cyan(`Command: `) + chalk.white(data.name) + '\n';
-    output += chalk.bold.cyan(`What it does: `) + chalk.white(data.description) + '\n';
+    output += chalk.bold.cyan(`Command: `) + chalk.white(data.name || fullCommand) + '\n';
+    output += chalk.bold.cyan(`What it does: `) + chalk.white(data.description || 'No description available.') + '\n';
 
     const riskColor = data.risk === 'Critical' ? chalk.red.bold : (data.risk === 'High' ? chalk.red : chalk.yellow);
-    output += chalk.bold.cyan(`Risk Level: `) + riskColor(data.risk) + '\n';
+    output += chalk.bold.cyan(`Risk Level: `) + riskColor(data.risk || 'Unknown') + '\n';
 
     const foundFlags = [];
-    if (fullCommand && data.dangerousFlags) {
+    if (fullCommand && data.dangerousFlags && typeof data.dangerousFlags === 'object' && !Array.isArray(data.dangerousFlags)) {
         for (const [flag, desc] of Object.entries(data.dangerousFlags)) {
-            if (fullCommand.includes(flag)) {
+            if (flag && typeof flag === 'string' && fullCommand.includes(flag)) {
                 foundFlags.push({ flag, desc });
             }
         }
@@ -61,9 +65,11 @@ export const displayExplanation = (data, fullCommand = '', isAI = false) => {
         });
     }
 
-    output += chalk.bold.cyan(`\nSafety Tip: `) + chalk.white(data.safeness) + '\n';
+    if (data.safeness) {
+        output += chalk.bold.cyan(`\nSafety Tip: `) + chalk.white(data.safeness) + '\n';
+    }
 
-    if (data.alternatives && data.alternatives.length > 0) {
+    if (data.alternatives && Array.isArray(data.alternatives) && data.alternatives.length > 0) {
         output += chalk.bold.green(`\nSafer Alternatives:\n`);
         data.alternatives.forEach(alt => {
             output += chalk.green(`  → `) + chalk.white(alt) + '\n';

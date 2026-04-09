@@ -35,9 +35,13 @@ if (fs.existsSync(cachePath)) {
 }
 
 export const saveToCache = (cmdKey, data) => {
-    cacheData[cmdKey] = data;
-    Object.assign(commandsData, cacheData);
-    fs.writeFileSync(cachePath, JSON.stringify(cacheData, null, 2), 'utf8');
+    try {
+        cacheData[cmdKey] = data;
+        Object.assign(commandsData, cacheData);
+        fs.writeFileSync(cachePath, JSON.stringify(cacheData, null, 2), 'utf8');
+    } catch (e) {
+        // Silently ignore if cache cannot be written (e.g. permission issues or readonly disk)
+    }
 };
 
 import { config } from './config.js';
